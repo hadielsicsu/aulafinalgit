@@ -6,7 +6,7 @@ package com.hadiel.aulafinalgit;
 
 /**
  *
- * @author marco
+ * @author hadiel
  */
 public class Aulafinalgit {
 
