@@ -1,0 +1,12 @@
+# Arquivos compilados Java
+target/
+
+# Arquivos de configuração específicos do IDE
+.idea/
+
+# Arquivos de configuração específicos do Maven
+*.iml
+*.ipr
+*.iws
+.idea/
+
