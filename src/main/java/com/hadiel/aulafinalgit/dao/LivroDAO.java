@@ -119,7 +119,7 @@ public class LivroDAO {
             stmt.setString(4, livro.getResumo());
             stmt.setBoolean(5, livro.isDisponivel());
             stmt.setInt(6, livro.getId());
-
+            System.out.println(livro.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -141,7 +141,7 @@ public class LivroDAO {
         }
     }
 
-    public void excluirLivro(int codigoLivro) {
+    public boolean excluirLivro(int codigoLivro) {
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -153,7 +153,8 @@ public class LivroDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            return false;
         } finally {
             if (stmt != null) {
                 try {
@@ -170,6 +171,7 @@ public class LivroDAO {
                 }
             }
         }
+        return true;
     }
 
 }

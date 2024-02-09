@@ -187,20 +187,24 @@ public class AdicionarLivro extends javax.swing.JDialog {
 
             livroDao.adicionarLivro(livro);
             this.dispose();
-        }else{
+        } else {
             livroDao.editarLivro(livro);
             this.dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(livro!=null){
-            int opcao = JOptionPane.showConfirmDialog(this, "Você tem certeza dessa exclusão? "+livro.getId());
-            if(opcao == JOptionPane.OK_OPTION){
-                livroDao.excluirLivro(livro.getId());
-                this.dispose();
+        if (livro != null) {
+            int opcao = JOptionPane.showConfirmDialog(this, "Você tem certeza dessa exclusão? " + livro.getId());
+            if (opcao == JOptionPane.OK_OPTION) {
+                if (livroDao.excluirLivro(livro.getId())) {
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Esse livro não pode ser excluído, pode ter sido emprestado em algum momento.");
+                }
+
             }
-            
+
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
