@@ -11,9 +11,11 @@ import com.hadiel.aulafinalgit.model.Livro;
 import com.hadiel.aulafinalgit.util.ConexaoDerby;
 
 public class LivroDAO {
-    public LivroDAO(){
-        
+
+    public LivroDAO() {
+
     }
+
     // Método para recuperar todos os livros do banco de dados
     public List<Livro> listarLivros() {
         List<Livro> livros = new ArrayList<>();
@@ -34,7 +36,7 @@ public class LivroDAO {
                 livro.setGenero(rs.getString("genero"));
                 livro.setNumeroPaginas(rs.getInt("paginas"));
                 livro.setResumo(rs.getString("sinopse"));
-                //livro.setDisponivel(rs.getBoolean("disponivel"));
+                livro.setDisponivel(rs.getBoolean("disponivel"));
 
                 livros.add(livro);
             }
@@ -74,7 +76,7 @@ public class LivroDAO {
 
         try {
             conn = ConexaoDerby.obterConexao();
-            String sql = "INSERT INTO livros (titulo, genero, numero_paginas, resumo, disponivel) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO livro (titulo, genero, paginas, sinopse, disponivel) VALUES (?, ?, ?, ?, ?)";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, livro.getTitulo());
             stmt.setString(2, livro.getGenero());
@@ -102,4 +104,72 @@ public class LivroDAO {
             }
         }
     }
+
+    public void editarLivro(Livro livro) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = ConexaoDerby.obterConexao();
+            String sql = "UPDATE livro SET titulo = ?, genero = ?, paginas = ?, sinopse = ?, disponivel = ? WHERE codigo = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, livro.getTitulo());
+            stmt.setString(2, livro.getGenero());
+            stmt.setInt(3, livro.getNumeroPaginas());
+            stmt.setString(4, livro.getResumo());
+            stmt.setBoolean(5, livro.isDisponivel());
+            stmt.setInt(6, livro.getId());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void excluirLivro(int codigoLivro) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = ConexaoDerby.obterConexao();
+            String sql = "DELETE FROM livro WHERE codigo = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, codigoLivro);
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }

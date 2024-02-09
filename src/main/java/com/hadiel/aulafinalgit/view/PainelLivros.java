@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 public class PainelLivros extends javax.swing.JPanel {
 
     LivroDAO livroDao;
+    List<Livro> listaLivros;
 
     /**
      * Creates new form PainelLivros
@@ -24,14 +25,19 @@ public class PainelLivros extends javax.swing.JPanel {
         livroDao = new LivroDAO();
         initComponents();
         atualizarTabela();
+
     }
 
     public void atualizarTabela() {
         // Obter a lista de livros do LivroDAO
-        List<Livro> listaLivros = livroDao.listarLivros();
+        listaLivros = livroDao.listarLivros();
 
-        // Criar um modelo de tabela vazio
-        DefaultTableModel model = new DefaultTableModel();
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {                
+                return false;
+            }
+        };
 
         // Adicionar as colunas ao modelo da tabela
         model.addColumn("Título");
@@ -110,10 +116,26 @@ public class PainelLivros extends javax.swing.JPanel {
                 "Título", "Gênero", "Páginas", "Disponível"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+       
+        if (evt.getClickCount() == 2) {
+            AdicionarLivro adicao = new AdicionarLivro(null, true, listaLivros.get(jTable1.getSelectedRow()));
+            adicao.pack();
+            adicao.setLocationRelativeTo(null);
+            adicao.setVisible(true);
+            atualizarTabela();
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

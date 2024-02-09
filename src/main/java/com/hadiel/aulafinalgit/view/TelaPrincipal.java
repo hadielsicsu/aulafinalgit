@@ -19,6 +19,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         initComponents();
     }
 
+    private void addTelaLivros() {
+        PainelLivros painel = new PainelLivros();
+        jPanel2.removeAll();
+        jPanel2.add(painel, BorderLayout.CENTER);
+        repaint();
+        validate();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,9 +74,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hadiel/aulafinalgit/images/add.png"))); // NOI18N
-        jButton4.setText("Emprestar");
+        jButton4.setText("Adicionar");
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,12 +128,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        PainelLivros painel = new PainelLivros();
-        jPanel2.removeAll();
-        jPanel2.add(painel, BorderLayout.CENTER);
-        repaint();
-        validate();
+        addTelaLivros();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        AdicionarLivro adicao = new AdicionarLivro(this, true, null);
+        adicao.pack();
+        adicao.setLocationRelativeTo(null);
+        adicao.setVisible(true);
+        addTelaLivros();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
