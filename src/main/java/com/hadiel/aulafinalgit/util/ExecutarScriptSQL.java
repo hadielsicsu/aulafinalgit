@@ -24,10 +24,12 @@ public class ExecutarScriptSQL {
             conn = ConexaoDerby.obterConexao();
 
             String sqlScript = lerArquivoSQL("data/create_tables.sql");
-
-            stmt = conn.createStatement();
-            stmt.execute(sqlScript);
-
+            String[] comandos = sqlScript.split(";");
+            for (String comando : comandos) {
+                stmt = conn.createStatement();
+                stmt.execute(comando.trim());
+            }
+            
             System.out.println("Script SQL executado com sucesso.");
         } catch (SQLException | IOException e) {
             e.printStackTrace();

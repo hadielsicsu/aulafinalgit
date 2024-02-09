@@ -11,7 +11,9 @@ import com.hadiel.aulafinalgit.model.Livro;
 import com.hadiel.aulafinalgit.util.ConexaoDerby;
 
 public class LivroDAO {
-
+    public LivroDAO(){
+        
+    }
     // Método para recuperar todos os livros do banco de dados
     public List<Livro> listarLivros() {
         List<Livro> livros = new ArrayList<>();
@@ -21,18 +23,18 @@ public class LivroDAO {
 
         try {
             conn = ConexaoDerby.obterConexao();
-            String sql = "SELECT * FROM livros";
+            String sql = "SELECT * FROM livro";
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Livro livro = new Livro();
-                livro.setId(rs.getInt("id"));
+                livro.setId(rs.getInt("codigo"));
                 livro.setTitulo(rs.getString("titulo"));
                 livro.setGenero(rs.getString("genero"));
-                livro.setNumeroPaginas(rs.getInt("numero_paginas"));
-                livro.setResumo(rs.getString("resumo"));
-                livro.setDisponivel(rs.getBoolean("disponivel"));
+                livro.setNumeroPaginas(rs.getInt("paginas"));
+                livro.setResumo(rs.getString("sinopse"));
+                //livro.setDisponivel(rs.getBoolean("disponivel"));
 
                 livros.add(livro);
             }
