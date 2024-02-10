@@ -18,7 +18,7 @@ public class LivroDAO {
     }
 
     // Método para recuperar todos os livros do banco de dados
-    public List<Livro> listarLivros() {
+    public List<Livro> listarLivros(String clausula) {
         List<Livro> livros = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -26,7 +26,7 @@ public class LivroDAO {
 
         try {
             conn = ConexaoDerby.obterConexao();
-            String sql = "SELECT * FROM livro";
+            String sql = "SELECT * FROM livro" + clausula;
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
@@ -230,4 +230,30 @@ public class LivroDAO {
         return true;
     }
 
+    public Livro getLivroById(int id) {
+        Livro livro = null;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = ConexaoDerby.obterConexao();
+            String sql = "SELECT * FROM livro WHERE codigo = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    livro = new Livro();
+                    livro.setId(rs.getInt("codigo"));
+                    livro.setTitulo(rs.getString("titulo"));
+                    livro.setGenero(rs.getString("genero"));
+                    livro.setNumeroPaginas(rs.getInt("paginas"));
+                    livro.setResumo(rs.getString("sinopse"));
+                    livro.setDisponivel(rs.getBoolean("disponivel"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return livro;
+    }
 }

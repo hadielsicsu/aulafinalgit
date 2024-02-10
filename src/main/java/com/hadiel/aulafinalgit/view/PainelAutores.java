@@ -24,11 +24,11 @@ public class PainelAutores extends javax.swing.JPanel {
     public PainelAutores() {
         autorDao = new AutorDAO();
         initComponents();
-        atualizarTabela();
+        atualizarTabela("");
     }
 
-    private void atualizarTabela() {
-        listaAutores = autorDao.listarAutores();
+    private void atualizarTabela(String filtro) {
+        listaAutores = autorDao.listarAutores(filtro);
 
         DefaultTableModel model = new DefaultTableModel() {
             @Override
@@ -71,6 +71,12 @@ public class PainelAutores extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jButton1.setText("Buscar");
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         jLabel1.setText("Buscar Autor: ");
 
@@ -136,7 +142,7 @@ public class PainelAutores extends javax.swing.JPanel {
         adicao.pack();
         adicao.setLocationRelativeTo(null);
         adicao.setVisible(true);
-        atualizarTabela();
+        atualizarTabela("");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -145,9 +151,13 @@ public class PainelAutores extends javax.swing.JPanel {
             adicao.pack();
             adicao.setLocationRelativeTo(null);
             adicao.setVisible(true);
-            atualizarTabela();
+            atualizarTabela("");
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        atualizarTabela(" WHERE nome LIKE '%" + jTextField1.getText() + "%' OR nacionalidade LIKE '%" + jTextField1.getText() + "%'");
+    }//GEN-LAST:event_jTextField1KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

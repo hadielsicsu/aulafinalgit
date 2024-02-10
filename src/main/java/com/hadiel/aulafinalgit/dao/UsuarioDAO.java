@@ -18,7 +18,7 @@ public class UsuarioDAO {
     private Connection conn;
 
     public UsuarioDAO() {
-        
+
     }
 
     public boolean adicionarUsuario(Usuario usuario) {
@@ -56,7 +56,7 @@ public class UsuarioDAO {
         return true;
     }
 
-    public boolean editarUsuario(Usuario usuario) {        
+    public boolean editarUsuario(Usuario usuario) {
         PreparedStatement stmt = null;
 
         try {
@@ -93,7 +93,7 @@ public class UsuarioDAO {
         return true;
     }
 
-    public boolean excluirUsuario(int codigo) {        
+    public boolean excluirUsuario(int codigo) {
         PreparedStatement stmt = null;
 
         try {
@@ -125,11 +125,12 @@ public class UsuarioDAO {
         return true;
     }
 
-    public List<Usuario> listarUsuarios() {
+    public List<Usuario> listarUsuarios(String clausula) {
         Connection conn = null;
         PreparedStatement stmt = null;
         List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT * FROM usuario";
+        String sql = "SELECT * FROM usuario" + clausula;
+        //System.out.println(sql);
         try {
             conn = ConexaoDerby.obterConexao();
             stmt = conn.prepareStatement(sql);
@@ -148,5 +149,32 @@ public class UsuarioDAO {
             e.printStackTrace();
         }
         return usuarios;
+    }
+
+    public Usuario getUsuarioById(int id) {
+        Usuario usuario = null;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        String sql = "SELECT * FROM usuario WHERE codigo = ?";
+        try {
+            conn = ConexaoDerby.obterConexao();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                usuario = new Usuario();
+                usuario.setId(rs.getInt("codigo"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setCpf(rs.getString("cpf"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setEndereco(rs.getString("endereco"));
+                usuario.setDataNascimento(rs.getString("dataNascimento"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuario;
     }
 }

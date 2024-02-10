@@ -11,86 +11,96 @@ import java.util.Date;
  * @author hadiel
  */
 public class Emprestimo {
+    private int codigo;
+    private int livroCodigo;
+    private int usuarioCodigo;
+    private String status;
+    private String dataLocacao;
+    private String dataDevolucao;
 
-    private int id;
-    private Date dataLocacao;
-    private Date dataDevolucao;
-    private Livro livro;
-    private Usuario usuario;
-    
-    public Emprestimo(){
-        
+    /**
+     * @return the codigo
+     */
+    public int getCodigo() {
+        return codigo;
     }
 
     /**
-     * @return the id
+     * @param codigo the codigo to set
      */
-    public int getId() {
-        return id;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     /**
-     * @param id the id to set
+     * @return the livroCodigo
      */
-    public void setId(int id) {
-        this.id = id;
+    public int getLivroCodigo() {
+        return livroCodigo;
+    }
+
+    /**
+     * @param livroCodigo the livroCodigo to set
+     */
+    public void setLivroCodigo(int livroCodigo) {
+        this.livroCodigo = livroCodigo;
+    }
+
+    /**
+     * @return the usuarioCodigo
+     */
+    public int getUsuarioCodigo() {
+        return usuarioCodigo;
+    }
+
+    /**
+     * @param usuarioCodigo the usuarioCodigo to set
+     */
+    public void setUsuarioCodigo(int usuarioCodigo) {
+        this.usuarioCodigo = usuarioCodigo;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /**
      * @return the dataLocacao
      */
-    public Date getDataLocacao() {
+    public String getDataLocacao() {
         return dataLocacao;
     }
 
     /**
      * @param dataLocacao the dataLocacao to set
      */
-    public void setDataLocacao(Date dataLocacao) {
+    public void setDataLocacao(String dataLocacao) {
         this.dataLocacao = dataLocacao;
     }
 
     /**
      * @return the dataDevolucao
      */
-    public Date getDataDevolucao() {
+    public String getDataDevolucao() {
         return dataDevolucao;
     }
 
     /**
      * @param dataDevolucao the dataDevolucao to set
      */
-    public void setDataDevolucao(Date dataDevolucao) {
+    public void setDataDevolucao(String dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
     }
 
-    /**
-     * @return the livro
-     */
-    public Livro getLivro() {
-        return livro;
-    }
-
-    /**
-     * @param livro the livro to set
-     */
-    public void setLivro(Livro livro) {
-        this.livro = livro;
-    }
-
-    /**
-     * @return the usuario
-     */
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    /**
-     * @param usuario the usuario to set
-     */
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-    
     
 }

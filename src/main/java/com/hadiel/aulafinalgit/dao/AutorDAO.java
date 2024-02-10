@@ -122,11 +122,11 @@ public class AutorDAO {
         return true;
     }
 
-    public List<Autor> listarAutores() {
+    public List<Autor> listarAutores(String clausula) {
         Connection conn = null;
         PreparedStatement stmt = null;
         List<Autor> autores = new ArrayList<>();
-        String sql = "SELECT * FROM autor";
+        String sql = "SELECT * FROM autor"+clausula;
         try {
             conn = ConexaoDerby.obterConexao();
             stmt = conn.prepareStatement(sql);

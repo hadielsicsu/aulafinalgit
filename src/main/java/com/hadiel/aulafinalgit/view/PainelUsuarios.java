@@ -13,19 +13,22 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author hadiel
  */
-public class PainelUsuarios extends javax.swing.JPanel {    
+public class PainelUsuarios extends javax.swing.JPanel {
+
     UsuarioDAO usuarioDAO;
     List<Usuario> listaUsuarios;
+
     /**
      * Creates new form PainelUsuarios
      */
-    public PainelUsuarios() {        
+    public PainelUsuarios() {
         usuarioDAO = new UsuarioDAO();
         initComponents();
-        atualizarTabela();
+        atualizarTabela("");
     }
-private void atualizarTabela() {
-        listaUsuarios = usuarioDAO.listarUsuarios();
+
+    private void atualizarTabela(String filtro) {
+        listaUsuarios = usuarioDAO.listarUsuarios(filtro);
 
         DefaultTableModel model = new DefaultTableModel() {
             @Override
@@ -48,6 +51,7 @@ private void atualizarTabela() {
 
         jTable1.setModel(model);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,6 +81,12 @@ private void atualizarTabela() {
         });
 
         jButton1.setText("Buscar");
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         jLabel1.setText("Buscar Usuário: ");
 
@@ -135,7 +145,7 @@ private void atualizarTabela() {
         adicao.pack();
         adicao.setLocationRelativeTo(null);
         adicao.setVisible(true);
-        atualizarTabela();
+        atualizarTabela("");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -144,9 +154,13 @@ private void atualizarTabela() {
             adicao.pack();
             adicao.setLocationRelativeTo(null);
             adicao.setVisible(true);
-            atualizarTabela();
+            atualizarTabela("");
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        atualizarTabela(" WHERE nome LIKE '%" + jTextField1.getText() + "%' OR cpf LIKE '%" + jTextField1.getText() + "%' OR dataNascimento LIKE '%" + jTextField1.getText() + "%' OR email LIKE '%" + jTextField1.getText() + "%' OR endereco LIKE '%" + jTextField1.getText() + "%'");
+    }//GEN-LAST:event_jTextField1KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

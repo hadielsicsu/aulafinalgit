@@ -24,13 +24,13 @@ public class PainelLivros extends javax.swing.JPanel {
     public PainelLivros() {
         livroDao = new LivroDAO();
         initComponents();
-        atualizarTabela();
+        atualizarTabela("");
 
     }
 
-    private void atualizarTabela() {
+    private void atualizarTabela(String filtro) {
         // Obter a lista de livros do LivroDAO
-        listaLivros = livroDao.listarLivros();
+        listaLivros = livroDao.listarLivros(filtro);
 
         DefaultTableModel model = new DefaultTableModel() {
             @Override
@@ -76,6 +76,12 @@ public class PainelLivros extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setText("Buscar Livro: ");
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         jButton1.setText("Buscar");
 
@@ -133,9 +139,13 @@ public class PainelLivros extends javax.swing.JPanel {
             adicao.pack();
             adicao.setLocationRelativeTo(null);
             adicao.setVisible(true);
-            atualizarTabela();
+            atualizarTabela("");
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        atualizarTabela(" WHERE titulo LIKE '%" + jTextField1.getText() + "%' OR genero LIKE '%" + jTextField1.getText() + "%'");
+    }//GEN-LAST:event_jTextField1KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

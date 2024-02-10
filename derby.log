@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sat Feb 10 09:05:45 BRT 2024:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-018d-92e8-c601-00000f0c4200 
+Sat Feb 10 15:42:22 BRT 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-018d-9453-e5e4-00000f2d6a60 
 on database directory E:\Projetos\Hadiel\aulafinalgit\biblioteca with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30946e09 
 Loaded from file:/C:/Users/marco/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
 java.vendor=Oracle Corporation
