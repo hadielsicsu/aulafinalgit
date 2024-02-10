@@ -4,19 +4,50 @@
  */
 package com.hadiel.aulafinalgit.view;
 
+import com.hadiel.aulafinalgit.dao.UsuarioDAO;
+import com.hadiel.aulafinalgit.model.Usuario;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author hadiel
  */
-public class PainelUsuarios extends javax.swing.JPanel {
-
+public class PainelUsuarios extends javax.swing.JPanel {    
+    UsuarioDAO usuarioDAO;
+    List<Usuario> listaUsuarios;
     /**
      * Creates new form PainelUsuarios
      */
-    public PainelUsuarios() {
+    public PainelUsuarios() {        
+        usuarioDAO = new UsuarioDAO();
         initComponents();
+        atualizarTabela();
     }
+private void atualizarTabela() {
+        listaUsuarios = usuarioDAO.listarUsuarios();
 
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        model.addColumn("Código");
+        model.addColumn("Nome");
+        model.addColumn("CPF");
+        model.addColumn("Data Nascimento");
+        model.addColumn("E-mail");
+        model.addColumn("Endereço");
+
+        for (Usuario usuario : listaUsuarios) {
+            Object[] rowData = {usuario.getId(), usuario.getNome(), usuario.getCpf(), usuario.getDataNascimento(), usuario.getEmail(), usuario.getEndereco()};
+            model.addRow(rowData);
+        }
+
+        jTable1.setModel(model);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,18 +120,33 @@ public class PainelUsuarios extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        AdicionarAutor adicao = new AdicionarAutor(null, true, null);
+        AdicionarUsuario adicao = new AdicionarUsuario(null, true, null);
         adicao.pack();
         adicao.setLocationRelativeTo(null);
         adicao.setVisible(true);
-        //atualizarTabela();
+        atualizarTabela();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        if (evt.getClickCount() == 2) {
+            AdicionarUsuario adicao = new AdicionarUsuario(null, true, listaUsuarios.get(jTable1.getSelectedRow()));
+            adicao.pack();
+            adicao.setLocationRelativeTo(null);
+            adicao.setVisible(true);
+            atualizarTabela();
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
