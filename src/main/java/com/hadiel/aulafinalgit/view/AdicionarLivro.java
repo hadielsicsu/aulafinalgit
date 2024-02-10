@@ -4,9 +4,11 @@
  */
 package com.hadiel.aulafinalgit.view;
 
+import com.hadiel.aulafinalgit.dao.AutorDAO;
 import com.hadiel.aulafinalgit.dao.LivroDAO;
 import com.hadiel.aulafinalgit.model.Autor;
 import com.hadiel.aulafinalgit.model.Livro;
+import com.hadiel.aulafinalgit.model.Usuario;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,16 +20,23 @@ import javax.swing.table.DefaultTableModel;
 public class AdicionarLivro extends javax.swing.JDialog {
 
     LivroDAO livroDao;
+    AutorDAO autorDao;
     Livro livro;
     List<Autor> listaAutores;
+    List<Autor> listaTodosAutores;
 
     /**
      * Creates new form AdicionarLivro
+     *
+     * @param parent
+     * @param modal
+     * @param livro
      */
     public AdicionarLivro(java.awt.Frame parent, boolean modal, Livro livro) {
         super(parent, modal);
         initComponents();
         livroDao = new LivroDAO();
+        autorDao = new AutorDAO();
         this.livro = livro;
         if (livro != null) {
             jTextField1.setText(livro.getTitulo());
@@ -36,11 +45,24 @@ public class AdicionarLivro extends javax.swing.JDialog {
             jTextArea1.setText(livro.getResumo());
             jRadioButton1.setSelected(livro.isDisponivel());
             atualizarTabela(livro.getId());
+            preencherComboBoxUsuarios();
             jButton2.setVisible(true);
         } else {
             jPanel2.setVisible(false);
             jTable1.setVisible(false);
             jButton2.setVisible(false);
+        }
+    }
+
+    private void preencherComboBoxUsuarios() {
+        jComboBox1.removeAllItems();
+        listaTodosAutores = autorDao.listarAutores(" ORDER BY nome");
+        for (Autor autor : listaTodosAutores) {
+            if (livro != null) {
+                if (!listaAutores.contains(autor)) {
+                    jComboBox1.addItem(autor.getNome());
+                }
+            }
         }
     }
 
@@ -96,6 +118,7 @@ public class AdicionarLivro extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -161,25 +184,43 @@ public class AdicionarLivro extends javax.swing.JDialog {
         jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
         jButton3.setText("Adicionar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(255, 0, 0));
         jButton4.setText("Excluir");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(119, Short.MAX_VALUE)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 113, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3))
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
@@ -302,6 +343,26 @@ public class AdicionarLivro extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (livro != null) {
+            livroDao.vinculaAutor(livro.getId(), listaTodosAutores.get(jComboBox1.getSelectedIndex()).getId());
+            atualizarTabela(livro.getId());
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (livro != null) {
+            if (jTable1.getSelectedRow() >= 0) {
+                livroDao.desvinculaAutor(livro.getId(), listaAutores.get(jTable1.getSelectedRow()).getId());
+                atualizarTabela(livro.getId());    
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um autor na tabela primeiro.");
+            }
+
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -309,6 +370,7 @@ public class AdicionarLivro extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
