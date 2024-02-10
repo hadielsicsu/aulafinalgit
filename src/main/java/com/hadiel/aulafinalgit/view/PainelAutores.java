@@ -4,8 +4,8 @@
  */
 package com.hadiel.aulafinalgit.view;
 
-import com.hadiel.aulafinalgit.dao.LivroDAO;
-import com.hadiel.aulafinalgit.model.Livro;
+import com.hadiel.aulafinalgit.dao.AutorDAO;
+import com.hadiel.aulafinalgit.model.Autor;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,45 +13,39 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author hadiel
  */
-public class PainelLivros extends javax.swing.JPanel {
+public class PainelAutores extends javax.swing.JPanel {
 
-    LivroDAO livroDao;
-    List<Livro> listaLivros;
+    AutorDAO autorDao;
+    List<Autor> listaAutores;
 
     /**
-     * Creates new form PainelLivros
+     * Creates new form PainelAutores
      */
-    public PainelLivros() {
-        livroDao = new LivroDAO();
+    public PainelAutores() {
+        autorDao = new AutorDAO();
         initComponents();
         atualizarTabela();
-
     }
 
     private void atualizarTabela() {
-        // Obter a lista de livros do LivroDAO
-        listaLivros = livroDao.listarLivros();
+        listaAutores = autorDao.listarAutores();
 
         DefaultTableModel model = new DefaultTableModel() {
             @Override
-            public boolean isCellEditable(int row, int column) {                
+            public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
 
-        // Adicionar as colunas ao modelo da tabela
-        model.addColumn("Título");
-        model.addColumn("Gênero");
-        model.addColumn("Páginas");
-        model.addColumn("Disponível");
+        model.addColumn("Código");
+        model.addColumn("Nome");
+        model.addColumn("Nacionalidade");
 
-        // Adicionar os dados dos livros ao modelo da tabela
-        for (Livro livro : listaLivros) {
-            Object[] rowData = {livro.getTitulo(), livro.getGenero(), livro.getNumeroPaginas(), livro.isDisponivel() ? "Sim" : "Não"};
+        for (Autor autor : listaAutores) {
+            Object[] rowData = {autor.getId(), autor.getNome(), autor.getNacionalidade()};
             model.addRow(rowData);
         }
 
-        // Definir o modelo da tabela jTable1
         jTable1.setModel(model);
     }
 
@@ -65,9 +59,10 @@ public class PainelLivros extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -75,9 +70,16 @@ public class PainelLivros extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Buscar Livro: ");
-
         jButton1.setText("Buscar");
+
+        jLabel1.setText("Buscar Autor: ");
+
+        jButton2.setText("Adicionar Autor");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,7 +92,9 @@ public class PainelLivros extends javax.swing.JPanel {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(346, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap(272, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,7 +103,8 @@ public class PainelLivros extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -107,13 +112,13 @@ public class PainelLivros extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Título", "Gênero", "Páginas", "Disponível"
+                "Código", "Nome", "Nacionalidade"
             }
         ));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -126,10 +131,17 @@ public class PainelLivros extends javax.swing.JPanel {
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        AdicionarAutor adicao = new AdicionarAutor(null, true, null);
+        adicao.pack();
+        adicao.setLocationRelativeTo(null);
+        adicao.setVisible(true);
+        atualizarTabela();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       
         if (evt.getClickCount() == 2) {
-            AdicionarLivro adicao = new AdicionarLivro(null, true, listaLivros.get(jTable1.getSelectedRow()));
+            AdicionarAutor adicao = new AdicionarAutor(null, true, listaAutores.get(jTable1.getSelectedRow()));
             adicao.pack();
             adicao.setLocationRelativeTo(null);
             adicao.setVisible(true);
@@ -140,6 +152,7 @@ public class PainelLivros extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

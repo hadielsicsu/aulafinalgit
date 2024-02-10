@@ -8,7 +8,7 @@ import java.awt.BorderLayout;
 
 /**
  *
- * @author marco
+ * @author hadiel
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 
@@ -21,6 +21,27 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void addTelaLivros() {
         PainelLivros painel = new PainelLivros();
+        jPanel2.removeAll();
+        jPanel2.add(painel, BorderLayout.CENTER);
+        repaint();
+        validate();
+    }
+    private void addTelaAutores() {
+        PainelAutores painel = new PainelAutores();
+        jPanel2.removeAll();
+        jPanel2.add(painel, BorderLayout.CENTER);
+        repaint();
+        validate();
+    }
+    private void addTelaUsuarios() {
+        PainelUsuarios painel = new PainelUsuarios();
+        jPanel2.removeAll();
+        jPanel2.add(painel, BorderLayout.CENTER);
+        repaint();
+        validate();
+    }
+    private void addTelaEmprestimo() {
+        PainelEmprestimo painel = new PainelEmprestimo();
         jPanel2.removeAll();
         jPanel2.add(painel, BorderLayout.CENTER);
         repaint();
@@ -41,6 +62,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -51,6 +73,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(1112, 700));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hadiel/aulafinalgit/images/books.png"))); // NOI18N
@@ -67,11 +90,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton2.setText("Autores");
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hadiel/aulafinalgit/images/emprestimos.png"))); // NOI18N
         jButton3.setText("Lendo");
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hadiel/aulafinalgit/images/add.png"))); // NOI18N
         jButton4.setText("Adicionar");
@@ -80,6 +113,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/hadiel/aulafinalgit/images/autor.png"))); // NOI18N
+        jButton5.setText("Usuários");
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -95,14 +138,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(752, Short.MAX_VALUE))
+                .addContainerGap(662, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton5)
                     .addComponent(jButton4)
                     .addComponent(jButton3)
                     .addComponent(jButton2)
@@ -139,12 +185,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
         addTelaLivros();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        addTelaAutores();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        addTelaUsuarios();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        addTelaEmprestimo();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

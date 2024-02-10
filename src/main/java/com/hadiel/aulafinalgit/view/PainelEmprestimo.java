@@ -4,55 +4,17 @@
  */
 package com.hadiel.aulafinalgit.view;
 
-import com.hadiel.aulafinalgit.dao.LivroDAO;
-import com.hadiel.aulafinalgit.model.Livro;
-import java.util.List;
-import javax.swing.table.DefaultTableModel;
-
 /**
  *
  * @author hadiel
  */
-public class PainelLivros extends javax.swing.JPanel {
-
-    LivroDAO livroDao;
-    List<Livro> listaLivros;
+public class PainelEmprestimo extends javax.swing.JPanel {
 
     /**
-     * Creates new form PainelLivros
+     * Creates new form PainelEmprestimo
      */
-    public PainelLivros() {
-        livroDao = new LivroDAO();
+    public PainelEmprestimo() {
         initComponents();
-        atualizarTabela();
-
-    }
-
-    private void atualizarTabela() {
-        // Obter a lista de livros do LivroDAO
-        listaLivros = livroDao.listarLivros();
-
-        DefaultTableModel model = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {                
-                return false;
-            }
-        };
-
-        // Adicionar as colunas ao modelo da tabela
-        model.addColumn("Título");
-        model.addColumn("Gênero");
-        model.addColumn("Páginas");
-        model.addColumn("Disponível");
-
-        // Adicionar os dados dos livros ao modelo da tabela
-        for (Livro livro : listaLivros) {
-            Object[] rowData = {livro.getTitulo(), livro.getGenero(), livro.getNumeroPaginas(), livro.isDisponivel() ? "Sim" : "Não"};
-            model.addRow(rowData);
-        }
-
-        // Definir o modelo da tabela jTable1
-        jTable1.setModel(model);
     }
 
     /**
@@ -65,9 +27,9 @@ public class PainelLivros extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -75,9 +37,9 @@ public class PainelLivros extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Buscar Livro: ");
-
         jButton1.setText("Buscar");
+
+        jLabel1.setText("Buscar Livro ou Usuário: ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,7 +52,7 @@ public class PainelLivros extends javax.swing.JPanel {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(346, Short.MAX_VALUE))
+                .addContainerGap(369, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,29 +75,13 @@ public class PainelLivros extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Título", "Gênero", "Páginas", "Disponível"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTable1);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       
-        if (evt.getClickCount() == 2) {
-            AdicionarLivro adicao = new AdicionarLivro(null, true, listaLivros.get(jTable1.getSelectedRow()));
-            adicao.pack();
-            adicao.setLocationRelativeTo(null);
-            adicao.setVisible(true);
-            atualizarTabela();
-        }
-    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
