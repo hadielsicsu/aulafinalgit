@@ -4,7 +4,6 @@
  */
 package com.hadiel.aulafinalgit.model;
 
-import java.util.Date;
 
 /**
  *
